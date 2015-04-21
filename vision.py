@@ -72,6 +72,7 @@ def combine(img_a, img_b, img_b_mask, action):
 	img_b = resize(img_b, img_a_max_dim * .3)
 
 
+
 	h,w,d = img_a.shape
 
 	x_out = int(w/2.)
@@ -139,11 +140,16 @@ def copyTo(dest, source, mask, pos):
 	y_start = max(y - int(sy/2.), 0)
 
 
-	# for i in range(x_start, x_start + sx):
-	# 	for j in range(y_start, y_start + sy):
-	# 		dest[i][j] = 
+	if mask is not None:
 
+		mask = cv2.resize(mask, (source.shape[1], source.shape[0]))
 
+		for i, i_off in enumerate(range(x_start, x_start + sx)):
+			for j, j_off in enumerate(range(y_start, y_start + sy)):
+				if mask[i][j] > 0:
+					dest[i_off][j_off] = source[i][j]
 
-	dest[x_start:x_start + sx, y_start:y_start + sy] = source
+	else:
+		dest[x_start:x_start + sx, y_start:y_start + sy] = source
+
 	return dest
