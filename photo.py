@@ -10,9 +10,11 @@ import numpy as np
 def create(query):
 
 	canvas = np.zeros((1000,1400,3), np.uint8)
+	canvas_mask = np.ones((1000,1400,3), np.uint8)
 	canvas.fill(255)
 
 	cur_img = None
+	cur_img_mask = None
 
 	tokens = lang.parse(query)
 
@@ -32,24 +34,17 @@ def create(query):
 			next_img, next_mask = vision.segment(next_img)
 
 
-			# masked = cv2.bitwise_and(next_img, next_img, mask=next_mask)
-
-			# cv2.imshow('image', masked)
-			# cv2.waitKey(0)
-			# cv2.destroyAllWindows()
-
-
-			cur_img = vision.combine(cur_img, next_img, next_mask, cur_action)
+			cur_img, cur_img_mask = vision.combine(cur_img, cur_img_mask, next_img, next_mask, cur_action)
 
 		else:
 
 			if cur_img is not None:
-				canvas = vision.copyTo(canvas, cur_img, None, None)
+				canvas = vision.copyTo(canvas, cur_img, cur_img_mask, None)
 
 			cur_img = bing.getFirstImage(cur_token)
 			cur_img = vision.resize(cur_img)
-			cur_img, mask = vision.segment(cur_img)
+			cur_img, cur_img_mask = vision.segment(cur_img)
 
 
-	canvas = vision.copyTo(canvas, cur_img, None, None)
+	canvas, canvas_mask = vision.copyTo(canvas, canvas_mask, cur_img, cur_img_mask, None)
 	return canvas

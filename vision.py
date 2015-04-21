@@ -59,7 +59,7 @@ def segment(image):
 
 
 
-def combine(img_a, img_b, img_b_mask, action):
+def combine(img_a, img_a_mask, img_b, img_b_mask, action):
 
 
 	# if action == 'wearing':
@@ -78,9 +78,9 @@ def combine(img_a, img_b, img_b_mask, action):
 	x_out = int(w/2.)
 	y_out = int(1*h/6.)
 
-	img_out = copyTo(img_a, img_b, img_b_mask, (y_out,x_out))
+	img_out, mask_out = copyTo(img_a, img_a_mask, img_b, img_b_mask, (y_out,x_out))
 
-	return img_out
+	return img_out, mask_out
 
 
 
@@ -117,7 +117,7 @@ def getMaxDim(image):
 	return max(image.shape)
 
 
-def copyTo(dest, source, mask, pos):
+def copyTo(dest, dest_mask, source, source_mask, pos):
 
 
 	dx, dy, dd = dest.shape
@@ -140,16 +140,18 @@ def copyTo(dest, source, mask, pos):
 	y_start = max(y - int(sy/2.), 0)
 
 
-	if mask is not None:
+	if source_mask is not None:
 
-		mask = cv2.resize(mask, (source.shape[1], source.shape[0]))
+		source_mask = cv2.resize(source_mask, (source.shape[1], source.shape[0]))
 
 		for i, i_off in enumerate(range(x_start, x_start + sx)):
 			for j, j_off in enumerate(range(y_start, y_start + sy)):
-				if mask[i][j] > 0:
+				if source_mask[i][j] > 0:
 					dest[i_off][j_off] = source[i][j]
+					dest_mask[i_off][j_off] = source_mask[i][j]
 
 	else:
 		dest[x_start:x_start + sx, y_start:y_start + sy] = source
+		dest_mask[x_start:x_start + sx, y_start:y_start + sy] = source_mask
 
-	return dest
+	return dest, dest_mask
