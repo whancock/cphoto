@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import urllib
+import random
 
 
 
@@ -117,8 +118,22 @@ def getMaxDim(image):
 
 def copyTo(dest, source, mask, pos):
 
-	x,y = pos
+
+	dx, dy, dd = dest.shape
 	sx, sy, sd = source.shape
+
+	if pos is None:
+		half_source_x = sx/2.
+		half_source_y = sy/2.
+
+		pos_x = random.randint(half_source_x, dx - half_source_x)
+		pos_y = random.randint(half_source_y, dy - half_source_y)
+
+		pos = (pos_x, pos_y)
+
+
+	x,y = pos
+	
 
 	x_start = max(x - int(sx/2.), 0)
 	y_start = max(y - int(sy/2.), 0)

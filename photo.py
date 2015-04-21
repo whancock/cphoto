@@ -9,7 +9,7 @@ import numpy as np
 
 def create(query):
 
-	canvas = np.zeros((800,1200,3), np.uint8)
+	canvas = np.zeros((1000,1400,3), np.uint8)
 	canvas.fill(255)
 
 	tokens = lang.parse(query)
@@ -38,7 +38,11 @@ def create(query):
 
 		else:
 			#write cur_img to the canvas
-			canvas = vision.copyTo(canvas, cur_img, None, (400,600))
+			canvas = vision.copyTo(canvas, cur_img, None, None)
+			# cur_img = bing.getFirstImage(tokens.pop(0))
+			# cur_img = vision.resize(cur_img)
+			# cur_img, mask = vision.segment(cur_img)
 
-	canvas = vision.copyTo(canvas, cur_img, None, (400,600))
+
+	canvas = vision.copyTo(canvas, cur_img, None, None)
 	return canvas

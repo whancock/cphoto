@@ -1,6 +1,6 @@
 
 
-stop_words = ['a', 'the', 'an', 'some']
+stop_words = ['a', 'the', 'an', 'some', 'and']
 
 location_words = ['above', 'in', 'outside', 'left', 'right', 'wearing', 'riding', 'inside']
 
