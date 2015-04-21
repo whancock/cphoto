@@ -39,7 +39,7 @@ def create(query):
 		else:
 
 			if cur_img is not None:
-				canvas = vision.copyTo(canvas, cur_img, cur_img_mask, None)
+				canvas, canvas_mask = vision.copyTo(canvas, canvas_mask, cur_img, cur_img_mask, None)
 
 			cur_img = bing.getFirstImage(cur_token)
 			cur_img = vision.resize(cur_img)

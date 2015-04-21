@@ -48,7 +48,7 @@ class BingSearchAPI():
 	  
 def getBingResult(query):
 
-	my_key = 'fEDnzx4E0/mMUwHi3KPfXkznrQ14JLzTiNcR1XQwi/s'
+	my_key = 'eX5lsVsUjnMG3WXaCerD+HygBmGtZM20SqmsBZTdBMU'
 	bing = BingSearchAPI(my_key)
 	params = {'$format': 'json', '$top': 10, '$skip': 0}
 	response = bing.search('web', query, params).json()

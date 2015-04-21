@@ -1,7 +1,7 @@
 import photo
 import cv2
 
-canvas = photo.create('steve+jobs wearing a blue+elephant')
+canvas = photo.create('a cat and irfan+essa wearing a blue+hat and steve+jobs wearing a blue+elephant')
 
 
 cv2.imshow('image', canvas)
