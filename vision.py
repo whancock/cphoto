@@ -4,6 +4,8 @@ import urllib
 import random
 
 
+random.seed(1)
+
 
 def segment(image):
 
